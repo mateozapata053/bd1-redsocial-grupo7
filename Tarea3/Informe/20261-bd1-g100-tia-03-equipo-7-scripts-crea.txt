@@ -1,0 +1,56 @@
+--
+-- Scripst de Creación de la Base de Datos
+--
+-- Todas las instrucciones se DEBEN EJECUTAR EN SECUENCIA SIN ERRORES
+-- NOTA: Ojo con las tablas relacionadas. Primero las independientes y después las dependientes
+--
+
+--
+-- Creación de las tablas
+-- -- Crear base de datos
+CREATE DATABASE red_social_estudiantil;
+USE red_social_estudiantil;
+
+-- Tabla usuarios
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    fecha_registro DATE
+);
+
+-- Tabla publicaciones
+CREATE TABLE publicaciones (
+    id_publicacion INT AUTO_INCREMENT PRIMARY KEY,
+    contenido TEXT,
+    fecha_publicacion DATE,
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
+-- Tabla grupos
+CREATE TABLE grupos (
+    id_grupo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT
+);
+
+-- Tabla intermedia (muchos a muchos)
+CREATE TABLE usuarios_grupos (
+    id_usuario INT,
+    id_grupo INT,
+    PRIMARY KEY (id_usuario, id_grupo),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
+);
+
+-- Tabla eventos (importante para el sistema)
+CREATE TABLE eventos (
+    id_evento INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    fecha DATE,
+    capacidad INT
+);
+
